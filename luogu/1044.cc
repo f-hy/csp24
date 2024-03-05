@@ -20,7 +20,10 @@ using namespace std;
 #define ite(it, s, e) for(auto it=s;it!=e;++it)
 const int maxn=18+1;
 int n;
-//catalina $\C^n_{2n}/(n+1)$
+/* catalan $f[n]=\C^n_{2n}/(n+1)$
+ * f[n]=f[0]*f[n-1]+f[1]*f[n-2]+...+f[n-1]*f[0](n>=2)
+ * f[n]=f[n-1]*(4*n-2)/(n+1)//组合数公式推导
+ */
 ll cc(ll x){
     if(x==1) return 1;
     return cc(x-1)*(4*x-2)/(x+1);
