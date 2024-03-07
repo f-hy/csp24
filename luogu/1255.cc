@@ -21,15 +21,15 @@ using namespace std;
 const int maxn=5e3+1;
 int n;
 
-ll mem[maxn]={0,1,2};
+ll f[maxn]={0, 1, 2};
 int main() {
     ios::sync_with_stdio(false);
     file(data);
     cin>>n;
     rep(i,3,n){
-        mem[i]=mem[i-1]+mem[i-2];
+        f[i]= f[i - 1] + f[i - 2];
     }
-    rep(i,1,n) cout<<mem[i]<<" ";
-    cout<<mem[n]<<endl;
+    rep(i,1,n) cout << f[i] << " ";
+    cout << f[n] << endl;
     return 0;
 }

@@ -20,14 +20,14 @@ using namespace std;
 #define ite(it, s, e) for(auto it=s;it!=e;++it)
 const int maxn=16;
 int n;
-int mem[maxn]={0,1,2};
+int f[maxn]={0, 1, 2};
 int main() {
     ios::sync_with_stdio(false);
     // file(data);
     cin>>n;
     rep(i,3,n){
-        mem[i]=mem[i-1]+mem[i-2];
+        f[i]= f[i - 1] + f[i - 2];
     }
-    cout<<mem[n]<<endl;
+    cout << f[n] << endl;
     return 0;
 }
