@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION ${CMAKE_VERSION})
+project(ccfcsp2)#
+link_directories(${LIB_PATH})
+set(EXECUTABLE_OUTPUT_PATH ${EXEC_PATH})
+aux_source_directory(. SRC_LIST)
+foreach (file ${SRC_LIST})
+    get_filename_component(file_name ${file} NAME_WE)
+    set(APP_NAME "${PROJECT_NAME}_${file_name}")
+    add_executable(${APP_NAME} ${file})
+endforeach ()

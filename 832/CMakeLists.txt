@@ -1,9 +1,8 @@
-set(CMAKE_VERSION 3.26)
-set(CMAKE_CXX_STANDARD 14)
 cmake_minimum_required(VERSION ${CMAKE_VERSION})
-project(csp24)
-set(LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)# 静态库生成的路径
-set(EXEC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)# 测试程序生成的路径
+project(832)#
+link_directories(${LIB_PATH})
+set(EXECUTABLE_OUTPUT_PATH ${EXEC_PATH})
+#获取本文件目录下所有子目录，将其用add_subdirectory作为子项目添加
 file(GLOB SUBDIRECTORIES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)# 获取本文件目录下的所有子目录
 #如果在${SUBDIRECTORIES}中有子目录名为test或tmp或.*，则将其从${SUBDIRECTORIES}中删除
 list(REMOVE_ITEM SUBDIRECTORIES bin build lib .*)

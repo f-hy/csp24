@@ -5,6 +5,7 @@ OJS
 - https://www.luogu.com.cn/problem/P{title}
 - https://www.acwing.com/problem/content/{title}
 - https://leetcode.cn/problems/{title}
+- http://118.190.20.162/home.page\\(http://118.190.20.162/view.page?gpid=T{ID})
 
 
 
