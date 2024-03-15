@@ -7,9 +7,9 @@ OJS
 - https://leetcode.cn/problems/{title}
 - http://118.190.20.162/home.page\\(http://118.190.20.162/view.page?gpid=T{ID})
 
+net,legacy
 
-
-
+[202312-4 宝藏](https://blog.csdn.net/qq_45123552/article/details/136002427)
 
 #### 题解
 

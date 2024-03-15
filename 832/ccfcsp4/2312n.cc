@@ -1,42 +1,31 @@
-/**20
- * @file 2312.cc
- * @author Friendy (friend0@qq.com)
- * @date 2024/3/11
- * @version 0.1
- * @brief csp competition
- * @github https://github.com/f-hy
- * @gitee https://gitee.com/friendhy
- * @copyright Copyright (c) 2024
- */
+//https://blog.csdn.net/qq_45123552/article/details/136002427
 #pragma GCC optimize(2, 3, "Ofast", "inline")
 
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
-#define endn <<'\n'
-#define pii pair<int,int>
-#define ll long long
-#define pll pair<ll,ll>
-#define mem(x, i) memset(x, i, sizeof(x))
+#define endl '\n'
+#define pii pair<int, int>
 #define file(x) freopen(#x ".in", "r", stdin); freopen(#x ".out", "w", stdout);
 #define rep(i, s, t) for(int i=s;i<=t;i++)
 #define dwn(i, s, t) for(int i=s;i>=t;i--)
-#define ite(it, s, e) for(auto it=s;it!=e;++it)
-#define cinarr(a, n) for (int i = 1; i <= n; i++) cin >> a[i]
-#define coutarr(a, n) for (int i = 1; i <= n; i++) cout << a[i] << " \n"[i == n]
-#define cinstl(a) for (auto& x : a) cin >> x;
-#define coutstl(a) for (const auto& x : a) cout << x << ' '; cout << '\n'
-#define md(x) (((x) % mod + mod) % mod)
-#define be(x) (x).begin(), (x).end()
+
+const int N = 1e5 + 5;
+const int M = 350 + 5;
+const int maxn = N;
+const int maxb = M;
 const int mod = 998244353;
-const int maxn = 1e5 + 1;
-const int maxb = 318;//ceil((int) sqrt(maxn))+1;
-int n, m, sn;
+int n, m, t, k, q;
 
 struct mat {
     int v[2][2];
 
     mat() {//E
+        v[0][0] = v[1][1] = 1;
+        v[1][0] = v[0][1] = 0;
+    }
+
+    mat(bool flag) {
         v[0][0] = v[1][1] = 1;
         v[1][0] = v[0][1] = 0;
     }
@@ -86,6 +75,8 @@ struct node {
     }
 } op[maxn];
 
+int sn;
+
 struct block {
     /*neg: 未匹配的指令3的条数
      * sz: 栈中剩余的指令个数
@@ -112,31 +103,33 @@ struct block {
 } blk[maxb];
 
 mat query(int l, int r) {
-    int bl = l / sn, br = r / sn;//l、r所在的块
-    if (bl == br) {//在同一块中，直接模拟
-        deque<int> dq;//记录块的索引i
-        rep(i, l, r) if (op[i].op != 3) dq.push_back(i);
+    int bl = l / sn, br = r / sn;
+    if (bl == br) { // 直接模拟
+        deque<int> dq;
+        for (int i = l; i <= r; i++)
+            if (op[i].op != 3) dq.push_back(i);
             else if (!dq.empty()) dq.pop_back();
-        mat L = mat(), R = mat();
-        if(dq.size()) rep(i, 0, dq.size() - 1) {//实际计算
+        mat L = mat(true), R = mat(true);
+        for (int i = 0; i < dq.size(); i++) {
             L = op[dq[i]].l * L;
             R = R * op[dq[i]].r;
         }
         return L * R;
-    } else {//不在同一块中
+    } else {
         int neg = 0;
         deque<int> dq;
-        rep(i, blk[br].l, r) {//计算右边的余块
+        rep(i, blk[br].l, r) {
             if (op[i].op != 3) dq.push_back(i);
             else if (dq.empty()) neg++;
             else dq.pop_back();
         }
-        mat L = mat(), R = mat();
-        if(dq.size()) rep(i, 0, dq.size() - 1) {
+        mat L = mat(true), R = mat(true);
+        for (int i = 0; i < dq.size(); i++) {
             L = op[dq[i]].l * L;
             R = R * op[dq[i]].r;
         }
-        dwn(i, br - 1, bl + 1) {//计算中间的块
+
+        dwn(i, br - 1, bl + 1) {
             if (blk[i].sz <= neg) neg = neg - blk[i].sz + blk[i].neg;
             else {
                 L = L * blk[i].suml[blk[i].sz - neg];
@@ -144,13 +137,14 @@ mat query(int l, int r) {
                 neg = blk[i].neg;
             }
         }
-        dq.clear();//modify
-        rep(i, l, blk[bl].r) {//计算左边的余块
+
+        while (!dq.empty()) dq.pop_back();
+        rep(i, l, blk[bl].r) {
             if (op[i].op != 3) dq.push_back(i);
             else if (!dq.empty()) dq.pop_back();
         }
         while (neg && !dq.empty()) neg--, dq.pop_back();
-        if(dq.size()) dwn(i, dq.size() - 1, 0) {
+        dwn(i, dq.size() - 1, 0) {
             L = L * op[dq[i]].l;
             R = op[dq[i]].r * R;
         }
@@ -172,18 +166,20 @@ void flow() {
             blk[idx / sn].build(idx / sn);
         } else {
             cin >> l >> r;
-            cout << query(--l, --r) endn;
+            cout << query(--l, --r) << endl;
         }
     }
 }
 
-int main() {
+signed main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
 #ifdef DEBUG
     file(data);
 #endif
-    flow();
+    int Case = 1;
+    //cin >> Case;
+    while (Case--) flow();
     return 0;
 }
